@@ -40,7 +40,7 @@ class TranscriptSegment(Base):
 
 
 def create_tables():
-    Base.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=engine, checkfirst=True)
     print("Tables created successfully")
 
 
