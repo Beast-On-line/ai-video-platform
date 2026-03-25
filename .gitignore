@@ -1,0 +1,27 @@
+# Dependencies — never commit these, they're huge
+node_modules/
+
+# Environment files — contain secrets, never commit
+.env
+.env.local
+.env.prod
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build output
+dist/
+build/
+
+# Prisma generated client
+node_modules/.prisma
+
+# Python virtual environments
+**/venv/
+**/__pycache__/
+**/*.pyc

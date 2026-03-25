@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["upload"]
+}
+
+model Video {
+  id          String      @id @default(uuid())
+  userId      String      @map("user_id")
+  title       String
+  description String?
+  status      VideoStatus @default(UPLOADING)
+  s3Key       String?     @map("s3_key")
+  s3Bucket    String?     @map("s3_bucket")
+  hlsUrl      String?     @map("hls_url")
+  duration    Int?
+  sizeBytes   BigInt?     @map("size_bytes")
+  mimeType    String?     @map("mime_type")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  tags        VideoTag[]
+
+  @@map("videos")
+  @@schema("upload")
+}
+
+model VideoTag {
+  id      String @id @default(uuid())
+  videoId String @map("video_id")
+  tag     String
+
+  video Video @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@index([videoId])
+  @@index([tag])
+  @@map("video_tags")
+  @@schema("upload")
+}
+
+enum VideoStatus {
+  UPLOADING
+  PROCESSING
+  READY
+  FAILED
+
+  @@schema("upload")
+}
