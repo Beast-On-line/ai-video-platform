@@ -150,12 +150,10 @@ services:
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/videodb
       KAFKA_BROKER: kafka:9092
-      OLLAMA_URL: http://ollama:11434
-      OLLAMA_MODEL: llama3.2
+      SUMMARIZATION_ENABLED: "false"
     depends_on:
       - postgres
       - kafka
-      - ollama
     networks:
       - app-network
 
@@ -184,16 +182,6 @@ services:
       EMBEDDING_MODEL: all-MiniLM-L6-v2
     depends_on:
       - postgres
-      - ollama
-    networks:
-      - app-network
-
-  ollama:
-    image: ollama/ollama
-    container_name: ollama
-    restart: always
-    volumes:
-      - ollama_data:/root/.ollama
     networks:
       - app-network
 
@@ -232,7 +220,6 @@ services:
 volumes:
   postgres_data:
   minio_data:
-  ollama_data:
   certbot_data:
 
 networks:

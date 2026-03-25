@@ -32,21 +32,23 @@ async def answer_question(question: str, segments: list) -> str:
         for seg in segments
     ])
 
-    prompt = f"""You are a helpful assistant that answers questions about video content.
+    try:
+        prompt = f"""You are a helpful assistant answering questions about video content.
 
-You have access to these relevant transcript segments from the video:
-
+Relevant transcript segments:
 {context}
 
-Based ONLY on the transcript segments above, answer this question:
+Based ONLY on the segments above, answer this question:
 {question}
-
-If the answer is not in the transcript segments, say "This topic is not covered in the relevant parts of the video."
-Keep your answer concise and cite the timestamps when relevant.
 
 Answer:"""
 
-    logger.info(f"Sending question to Ollama with {len(segments)} context segments")
-    answer = await generate(prompt)
-    logger.info(f"Ollama answer: {answer[:100]}...")
-    return answer
+        logger.info(f"Sending question to Ollama with {len(segments)} context segments")
+        answer = await generate(prompt)
+        logger.info(f"Answer: {answer[:100]}...")
+        return answer
+
+    except Exception as e:
+        logger.warning(f"Ollama unavailable: {e} — returning context only")
+        return f"Based on the transcript, here are the most relevant segments:\n\n" + \
+               "\n".join([f"[{seg['start_time']:.1f}s] {seg['text']}" for seg in segments[:3]])

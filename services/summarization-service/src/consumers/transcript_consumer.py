@@ -55,6 +55,10 @@ async def fetch_transcript_from_db(video_id: str, transcript_id: str) -> dict:
 
 
 async def process_event(event: dict, producer: AIOKafkaProducer):
+    if os.getenv("SUMMARIZATION_ENABLED", "true").lower() == "false":
+        logger.info("Summarization disabled — skipping")
+        return
+
     video_id = event.get("videoId")
     transcript_id = event.get("transcriptId")
     user_id = event.get("userId")
