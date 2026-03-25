@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+aiokafka
+asyncpg
+psycopg2-binary
+sqlalchemy
+python-dotenv
+minio
+faster-whisper
+torch --index-url https://download.pytorch.org/whl/cpu

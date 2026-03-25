@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+python-dotenv
+httpx
+pgvector
+sentence-transformers
+torch --index-url https://download.pytorch.org/whl/cpu
