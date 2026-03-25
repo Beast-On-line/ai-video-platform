@@ -5,6 +5,4 @@ asyncpg
 psycopg2-binary
 sqlalchemy
 python-dotenv
-sentence-transformers
 pgvector
-torch --index-url https://download.pytorch.org/whl/cpu
