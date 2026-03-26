@@ -113,13 +113,9 @@ services:
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
       MINIO_BUCKET: ai-video-platform
       MINIO_SECURE: "false"
+      MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT}
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
       FRONTEND_URL: ${FRONTEND_URL}
-    depends_on:
-      - postgres
-      - minio
-    networks:
-      - app-network
 
   transcription-service:
     build: ../services/transcription-service
