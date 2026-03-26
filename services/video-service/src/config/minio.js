@@ -13,10 +13,20 @@ const minioClient = new Minio.Client({
 async function getSignedUrl(s3Key) {
   const bucket = process.env.MINIO_BUCKET || "ai-video-platform";
   const expiry = parseInt(process.env.SIGNED_URL_EXPIRY || "3600");
+  const publicEndpoint = process.env.MINIO_PUBLIC_ENDPOINT;
 
   try {
     const url = await minioClient.presignedGetObject(bucket, s3Key, expiry);
-    logger.info("Generated signed URL", { s3Key });
+
+    if (publicEndpoint) {
+      const urlObj = new URL(url);
+      const publicUrl = new URL(publicEndpoint);
+      urlObj.hostname = publicUrl.hostname;
+      urlObj.port = publicUrl.port;
+      urlObj.protocol = publicUrl.protocol;
+      return urlObj.toString();
+    }
+
     return url;
   } catch (err) {
     logger.error("Failed to generate signed URL", {
