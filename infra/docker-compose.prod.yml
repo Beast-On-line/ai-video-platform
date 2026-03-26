@@ -116,6 +116,8 @@ services:
       MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT}
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
       FRONTEND_URL: ${FRONTEND_URL}
+    networks:
+      - app-network
 
   transcription-service:
     build: ../services/transcription-service
