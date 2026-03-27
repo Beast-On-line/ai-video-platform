@@ -19,12 +19,10 @@ async function getSignedUrl(s3Key) {
     const url = await minioClient.presignedGetObject(bucket, s3Key, expiry);
 
     if (publicEndpoint) {
-      const urlObj = new URL(url);
-      const publicUrl = new URL(publicEndpoint);
-      urlObj.hostname = publicUrl.hostname;
-      urlObj.port = publicUrl.port;
-      urlObj.protocol = publicUrl.protocol;
-      return urlObj.toString();
+      // Simple string replace — keeps signature intact
+      const replaced = url.replace("http://minio:9000", publicEndpoint);
+      logger.info("Generated signed URL with public endpoint");
+      return replaced;
     }
 
     return url;
